@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Profile</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: orange;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        max-width: 600px;
+        background-color: white;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      h1 {
+        color: #e65100;
+      }
+
+      p {
+        font-size: 16px;
+        color: #333;
+        margin: 10px 0;
+      }
+
+      ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        text-align: left;
+        margin-top: 10px;
+      }
+
+      li {
+        color: #444;
+        margin: 5px 0;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #e65100;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #bf360c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>👤 My Profile</h1>
+      <p><strong>Name:</strong>Divya</p>
+      <p><strong>Email:</strong> divya@gmail.com</p>
+      <p><strong>Favourite Recipes:</strong></p>
+      <ul id="favList"></ul>
+      <button onclick="window.location.href='home.html'">
+        🏠 Back to Home
+      </button>
+    </div>
+
+    <script>
+      const favList = document.getElementById("favList");
+      const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
+
+      if (favourites.length === 0) {
+        favList.innerHTML = "<li>No favourites saved yet.</li>";
+      } else {
+        favourites.forEach((food) => {
+          const li = document.createElement("li");
+          li.textContent = food;
+          favList.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>

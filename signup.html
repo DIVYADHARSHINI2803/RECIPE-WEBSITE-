@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: orange;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        max-width: 400px;
+        background-color: white;
+        margin: 60px auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      h1 {
+        color: #e65100;
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        text-align: left;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 15px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #e65100;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #bf360c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📝 Sign Up</h1>
+      <form onsubmit="handleSignup(event)">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required />
+
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+
+    <script>
+      function handleSignup(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Save data in localStorage (basic version — not secure)
+        const user = { name, email, password };
+        localStorage.setItem("user", JSON.stringify(user));
+
+        alert("✅ Account created! You can now log in.");
+        window.location.href = "home.html"; // or redirect to login page
+      }
+    </script>
+  </body>
+</html>

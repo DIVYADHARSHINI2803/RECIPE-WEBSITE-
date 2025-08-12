@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recipe</title>
+  <style>
+   body {
+  font-family: sans-serif;
+  background: seashell;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.recipe-container {
+  background: seashell;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 700px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+ol {
+  text-align: left;
+  margin-top: 20px;
+  padding-left: 20px;
+}
+    .video-link {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .video-link a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    .video-link a:hover {
+      text-decoration: underline;
+    }
+
+    .back {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    button {
+      background-color: orange;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  
+
+
+  <div class="recipe-container">
+    <h2 id="foodTitle"></h2>
+    <ol id="recipeList"></ol>
+    <div class="video-link" id="videoLink"></div>
+    <div class="back">
+      <button onclick="goBack()">← Back to Home</button>
+    </div>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const food = urlParams.get('food');
+    const title = document.getElementById("foodTitle");
+    const recipeList = document.getElementById("recipeList");
+    const videoLink = document.getElementById("videoLink");
+
+    const recipes = {
+      pizza: {
+        steps: [
+          "Gather ingredients: flour, yeast, water, sugar, salt, olive oil.",
+          "Make dough by mixing and kneading for 10 minutes.",
+          "Let dough rise for 1 hour.",
+          "Preheat oven to 220°C (425°F).",
+          "Roll out the dough and place on tray.",
+          "Spread pizza sauce evenly.",
+          "Add mozzarella cheese and toppings.",
+          "Sprinkle oregano and chili flakes.",
+          "Bake for 15-20 minutes until crust is golden.",
+          "Cool slightly and slice.",
+          "Drizzle with olive oil if desired.",
+          "Serve hot with ketchup or dip."
+        ],
+        video: "https://youtube.com/shorts/ftB0xOiZ644?si=HsbATa4s_VxtA7hS"
+      },
+
+      biryani: {
+        steps: [
+          "Soak basmati rice for 30 minutes.",
+          "Marinate chicken with curd, spices, lemon.",
+          "Fry onions till golden brown.",
+          "Cook chicken partially with masala.",
+          "Boil rice with whole spices.",
+          "Layer rice and chicken in pot.",
+          "Top with fried onions, saffron milk, and ghee.",
+          "Cover and cook on low flame (dum).",
+          "Let rest for 10 minutes.",
+          "Mix gently before serving.",
+          "Serve with raita or gravy.",
+          "Garnish with coriander and boiled egg."
+        ],
+        video: "https://youtube.com/shorts/MnVJGjlvdY4?si=het2qMhT4Gbxpbkk"
+      },
+
+      pasta: {
+        steps: [
+          "Boil pasta in salted water.",
+          "Drain and keep aside.",
+          "Sauté garlic and onion in olive oil.",
+          "Add tomatoes or pasta sauce.",
+          "Season with herbs and salt.",
+          "Simmer for 10 minutes.",
+          "Add pasta and toss well.",
+          "Add cheese and cook for 2 minutes.",
+          "Add chili flakes if spicy is desired.",
+          "Garnish with parsley.",
+          "Serve hot with bread.",
+          "Optional: Add cream for richness."
+        ],
+        video: "https://youtube.com/shorts/2T4fuOad0qI?si=AVP8Z66vNraZPtRM"
+      },
+
+      burger: {
+        steps: [
+          "Mix meat or veggies with seasoning.",
+          "Shape into round patties.",
+          "Grill or pan-fry until cooked.",
+          "Toast buns lightly.",
+          "Spread sauce on bun.",
+          "Place lettuce and patty.",
+          "Add tomato, onion, cheese.",
+          "Close bun with top half.",
+          "Secure with a stick if needed.",
+          "Serve with fries.",
+          "Add pickles or jalapeños.",
+          "Use paneer/tofu for veg option."
+        ],
+        video: "https://youtube.com/shorts/whpJ2nuMw7c?si=9-yudeK0N0uva_N_"
+      },
+
+      noodles: {
+        steps: [
+          "Boil noodles and drain.",
+          "Heat oil in a wok.",
+          "Add chopped garlic and green chilies.",
+          "Add shredded vegetables.",
+          "Stir fry on high flame.",
+          "Add soy sauce and vinegar.",
+          "Add chili sauce and mix well.",
+          "Add boiled noodles.",
+          "Season with salt and pepper.",
+          "Toss well and heat through.",
+          "Garnish with spring onions.",
+          "Serve hot with ketchup."
+        ],
+        video: "https://youtube.com/shorts/whpJ2nuMw7c?si=9-yudeK0N0uva_N_"
+      },
+
+      dosa: {
+        steps: [
+          "Soak rice and urad dal for 6 hours.",
+          "Grind into batter and ferment overnight.",
+          "Add salt and stir batter.",
+          "Heat dosa tawa and grease lightly.",
+          "Pour batter and spread thin.",
+          "Drizzle oil around edges.",
+          "Cook till golden and crispy.",
+          "Flip if needed for soft dosa.",
+          "Remove and serve on plate.",
+          "Prepare chutney or sambar.",
+          "Serve hot with sides.",
+          "Add masala inside if needed."
+        ],
+        video: "https://youtube.com/shorts/-4FUH3U0gIk?si=Ct_DC0NL6OcRf8Jl"
+      },
+
+      friedrice: {
+        steps: [
+          "Cook rice and cool completely.",
+          "Heat oil in a large pan.",
+          "Add garlic and onion.",
+          "Add chopped vegetables.",
+          "Stir fry until slightly soft.",
+          "Add soy sauce and vinegar.",
+          "Add chili sauce and stir.",
+          "Mix in cooked rice.",
+          "Toss everything well.",
+          "Add salt and pepper.",
+          "Garnish with spring onion.",
+          "Serve hot with manchurian."
+        ],
+        video: "https://youtube.com/shorts/Jss_2aIl6qs?si=2-sZz-TTp-naSNEU"
+      },
+      chickencurry: {
+         steps: [
+                "Clean and cut chicken pieces.",
+          "Marinate with turmeric, salt, and curd for 30 minutes.",
+      "Heat oil in a pan and add whole spices (bay leaf, cinnamon, cloves).",
+      "Add chopped onions and sauté until golden.",
+      "Add ginger-garlic paste and cook for 2 minutes.",
+      "Add chopped tomatoes and cook until soft.",
+      "Add chili powder, coriander, and garam masala.",
+      "Add marinated chicken and mix well.",
+      "Cook on medium flame until chicken releases juices.",
+      "Add water for gravy and cook until chicken is tender.",
+      "Adjust salt and garnish with coriander leaves.",
+      "Serve hot with rice or roti."
+    ],
+    video: "https://youtube.com/shorts/01hBjAROSs0?si=6H5-8vByvWC68cfF"
+  },
+
+  panipuri: {
+    steps: [
+      "Prepare puris (or buy ready-made puris).",
+      "Boil and mash potatoes with salt and chaat masala.",
+      "Soak tamarind and extract pulp.",
+      "Blend mint, coriander, green chili, and tamarind water.",
+      "Add black salt, cumin powder, and chilled water to make pani.",
+      "Strain the pani and chill in fridge.",
+      "Stuff each puri with potato filling.",
+      "Add some chopped onions (optional).",
+      "Dip filled puris in chilled spicy pani.",
+      "Serve immediately before they turn soggy.",
+      "You can also add sweet tamarind chutney.",
+      "Optional: Add boiled chickpeas or sprouts for extra taste."
+    ],
+    video: "https://youtube.com/shorts/mdbqoxWxqEI?si=Bzd1mg-3zNOZGCa2"
+  },
+
+      icecream: {
+        steps: [
+          "Chill a bowl.",
+          "Whip heavy cream until soft peaks form.",
+          "Add condensed milk slowly.",
+          "Add vanilla or flavoring.",
+          "Mix toppings (choco chips, nuts).",
+          "Pour into freezer-safe container.",
+          "Level the surface.",
+          "Cover with lid or cling wrap.",
+          "Freeze for 6–8 hours.",
+          "Scoop when ready to serve.",
+          "Top with syrup or fruits.",
+          "Enjoy cold and creamy!"
+        ],
+        video: "https://youtube.com/shorts/Ld_Vslkv5Zg?si=LYzZ4Hkx7M3BRpbp"
+      }
+    };
+
+    const recipe = recipes[food];
+    title.innerText = food ? food.toUpperCase() + " RECIPE" : "Recipe";
+
+    if (recipe) {
+      recipe.steps.forEach(step => {
+        const li = document.createElement("li");
+        li.textContent = step;
+        recipeList.appendChild(li);
+      });
+
+      videoLink.innerHTML = `📹 <a href="${recipe.video}" target="_blank" rel="noopener noreferrer">
+        Watch Recipe Video on YouTube
+      </a>`;
+    } else {
+      recipeList.innerHTML = "<li>Recipe not found.</li>";
+      videoLink.innerHTML = "";
+    }
+
+    function goBack() {
+      window.location.href = "home.html";
+    }
+    </script>
+</body>
+</html>
